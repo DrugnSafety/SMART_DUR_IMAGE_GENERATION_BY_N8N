@@ -175,8 +175,11 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 **Medication**: Telmisartan 80mg (blood pressure medication)
 **Risk Factor**: Elderly age group
 **Generated Warning**: "Excessive blood pressure drop due to Telmisartan in elderly patients"
+
 **Generated Image**
-![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](./images/cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg)
+
+![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](./images/cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg)
+
 **Generated Image Features:**
 
 - Central figure: 70-year-old woman with distressed expression
