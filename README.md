@@ -163,6 +163,8 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 **Output Data (Sheet2):**
 https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/output_data_sample.jpg
 
+(attachment:[https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/output_data_sample.jpg])
+
 - **Image URLs**: Direct links to generated images
 - **Google Sheets Integration**: IMAGE formulas for direct spreadsheet viewing
 - **Metadata**: Processing timestamps, file information, and patient context
