@@ -1,0 +1,1228 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI",
+          "mode": "list",
+          "cachedResultName": "smartdur_image_generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Error_Log",
+          "mode": "list",
+          "cachedResultName": "Error_Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit#gid=ERROR_LOG_GID"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3120,
+        660
+      ],
+      "id": "7a2b5333-abfc-4ca5-aabc-074d63a9d34f",
+      "name": "Log Error to Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6J8PGFiQ5ZKgIGYA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2920,
+        660
+      ],
+      "id": "ce0897a4-fa32-49c0-a8cb-da130d8eed9e",
+      "name": "Wait Before Retry",
+      "webhookId": "4fd54f51-0c95-488b-a58d-e3703b525b6c"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 에러 로깅 및 재시도 로직\nconst error = $json.error || {};\nconst retryCount = $json.retryCount || 0;\nconst maxRetries = 3;\n\nconsole.error('Error occurred:', error);\nconsole.log('Retry count:', retryCount);\n\nif (retryCount < maxRetries) {\n  // 재시도를 위한 데이터 준비\n  return {\n    json: {\n      ...$json,\n      retryCount: retryCount + 1,\n      shouldRetry: true,\n      errorDetails: {\n        message: error.message || 'Unknown error',\n        timestamp: new Date().toISOString(),\n        retryAttempt: retryCount + 1\n      }\n    }\n  };\n} else {\n  // 최대 재시도 횟수 초과\n  return {\n    json: {\n      ...$json,\n      shouldRetry: false,\n      failed: true,\n      errorDetails: {\n        message: error.message || 'Unknown error',\n        timestamp: new Date().toISOString(),\n        finalFailure: true\n      }\n    }\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2740,
+        660
+      ],
+      "id": "16cffece-7e35-451d-812a-78c9b462e635",
+      "name": "Error Handler"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        840,
+        100
+      ],
+      "id": "a3de9540-7591-4f1c-bce3-21e0c815ac97",
+      "name": "Outer Loop End"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        -180
+      ],
+      "id": "c1ad9fa6-2a0c-4c22-a470-c90dfa692c2d",
+      "name": "Inner Loop End"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI",
+          "mode": "list",
+          "cachedResultName": "smartdur_image_generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 464646019,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit#gid=464646019"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "연구자등록번호": "={{ $json.researcherNo }}",
+            "age": "={{ $json.age }}",
+            "gender": "={{ $json.gender }}",
+            "spreadsheet_updated_time": "={{ $json.spreadsheet_updated_time }}",
+            "prompt_ver": "2.0",
+            "DUR_identifier": "={{ $json.identifier }}",
+            "DUR_content": "={{ $json.DUR_content }}",
+            "image": "={{ $json.image }}",
+            "image_url": "={{ $json.image_url }}",
+            "file_name": "={{ $json.fileName }}",
+            "watchful_symptom": "={{ $json.watchful_symptoms }}",
+            "fsn": "={{ $json.fsn }}",
+            "singularfsn": "={{ $json.singularfsn }}",
+            "objectA_name": "={{ $json.object_A_name }}",
+            "objectB_name": "={{ $json.object_B_name }}",
+            "recommendation": "={{ $json.recommendation }}",
+            "category": "={{ $json.category }}",
+            "SMART_DUR_생성일": "={{ $json['SMART_DUR_생성일']}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "연구자등록번호",
+              "displayName": "연구자등록번호",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SMART_DUR_생성일",
+              "displayName": "SMART_DUR_생성일",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "age",
+              "displayName": "age",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "gender",
+              "displayName": "gender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "spreadsheet_updated_time",
+              "displayName": "spreadsheet_updated_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prompt_ver",
+              "displayName": "prompt_ver",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DUR_identifier",
+              "displayName": "DUR_identifier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DUR_content",
+              "displayName": "DUR_content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image_url",
+              "displayName": "image_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image",
+              "displayName": "image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "file_name",
+              "displayName": "file_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "watchful_symptom",
+              "displayName": "watchful_symptom",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fsn",
+              "displayName": "fsn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "singularfsn",
+              "displayName": "singularfsn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "objectA_name",
+              "displayName": "objectA_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "objectB_name",
+              "displayName": "objectB_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "recommendation",
+              "displayName": "recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3580,
+        320
+      ],
+      "id": "22facf9a-cbcc-4878-8e1e-9800097bb558",
+      "name": "Update Spreadsheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6J8PGFiQ5ZKgIGYA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Google Sheets IMAGE 수식 생성\nconst j = $json;\n\n// 드라이브 파일 ID 추출\nconst fileId = j.fileId || '';\n\n// Google Sheets IMAGE 수식 생성 (모드 3: 원본 크기)\nconst formula = fileId\n  ? `=IMAGE(\"https://drive.google.com/uc?export=view&id=${fileId}\", 3)`\n  : '링크 확인 필요';\n\nreturn {\n  json: {\n    ...j,\n    image: formula,\n    spreadsheet_updated_time: $now.setZone('Asia/Seoul').toFormat('yyyy-LL-dd HH:mm:ss')\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3380,
+        320
+      ],
+      "id": "add4b2bd-d6d6-44f0-af8c-b99edf6efbd8",
+      "name": "Prepare Sheet Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 현재 Upload Image 노드의 데이터에서 필요한 정보 추출\nconst currentItem = $input.first().json;\nconst mergeData = $('Merge Folder ID').item.json;\n\n// webViewLink 수집\nconst webViewLink = currentItem.webViewLink || '';\nconsole.log('WebViewLink found:', webViewLink);\n\n// 파일명에서 정보 추출\nconst fileName = currentItem.name || '';\nconsole.log('FileName:', fileName);\n\n// 파싱 로직 개선\nlet researcherNo = mergeData['연구자등록번호'] || '';\nlet identifier = mergeData.identifier || '';\nlet outcomeIndex = mergeData.outcomeIndex || 1;\nlet fsn = mergeData.singularfsn || '';\n\nconsole.log('Processing data:', {\n  researcherNo,\n  identifier,\n  outcomeIndex,\n  fsn,\n  identifierIndex: mergeData.identifierIndex,\n  totalIdentifiers: mergeData.totalIdentifiers\n});\n\nreturn {\n  json: {\n    // 기본 정보\n    fileName,\n    researcherNo,\n    identifier,\n    outcomeIndex,\n    identifierIndex: mergeData.identifierIndex,\n    totalIdentifiers: mergeData.totalIdentifiers,\n    \n    // URL 정보\n    webViewLink,\n    image_url: webViewLink,\n    \n    // Google Drive 파일 정보\n    fileId: currentItem.id,\n    mimeType: currentItem.mimeType,\n    fileSize: currentItem.size || 'Unknown',\n    \n    // 원본 데이터\n    age: mergeData.age,\n    gender: mergeData.gender,\n    SMART_DUR_생성일: mergeData.SMART_DUR_생성일,\n    object_A_name: mergeData.object_A_name,\n    object_B_name: mergeData.object_B_name,\n    fsn: mergeData.fsn,\n    singularfsn: mergeData.singularfsn,\n    severity: mergeData.severity,\n    watchful_symptoms: mergeData.watchful_symptoms,\n    recommendation: mergeData.recommendation,\n    category: mergeData.category,\n    \n    // DUR content (JSON 문자열로 저장)\n    DUR_content: JSON.stringify({\n      identifier: mergeData.identifier,\n      objects: {\n        object_A: {\n          code: mergeData.object_A_code,\n          code_system: mergeData.object_A_code_system,\n          name: mergeData.object_A_name\n        },\n        object_B: {\n          code: mergeData.object_B_code,\n          code_system: mergeData.object_B_code_system,\n          name: mergeData.object_B_name\n        }\n      },\n      target_outcome: {\n        fsn: mergeData.fsn,\n        severity: mergeData.severity,\n        watchful_symptoms: mergeData.watchful_symptoms,\n        singularfsn: mergeData.singularfsn,\n        recommendation: mergeData.recommendation,\n        category: mergeData.category\n      }\n    }),\n    \n    // 타임스탬프\n    processingTimestamp: mergeData.processingTimestamp,\n    uploadTimestamp: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3160,
+        320
+      ],
+      "id": "a523fa57-bb19-445f-ad46-9468c363a08a",
+      "name": "Collect URLs"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "=data",
+        "name": "={{ $('Merge Folder ID').item.json['연구자등록번호'] }}_{{ $('Merge Folder ID').item.json.identifier }}_{{ $('Merge Folder ID').item.json.outcomeIndex }}_{{ $('Merge Folder ID').item.json.singularfsn }}.jpg",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Merge Folder ID').first().json.folderId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2980,
+        320
+      ],
+      "id": "1957a7d0-45ed-491b-be69-8cba8a9721e5",
+      "name": "Upload Image",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hwCM5F9xZEm7kn1c",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "model": "gpt-image-1",
+        "prompt": "={{ $json.output }}",
+        "options": {
+          "quality": "high",
+          "size": "1024x1024"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2760,
+        320
+      ],
+      "id": "5ae92208-14c9-4537-95aa-c0cf3d12ecea",
+      "name": "Generate Image",
+      "credentials": {
+        "openAiApi": {
+          "id": "bzwxBY3KltrHh424",
+          "name": "OpenAi account - 계정_drugnsafety@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5",
+          "mode": "list",
+          "cachedResultName": "gpt-5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2420,
+        660
+      ],
+      "id": "f706bcb8-1aef-43ba-bd40-77dde6e2379d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "bzwxBY3KltrHh424",
+          "name": "OpenAi account - 계정_drugnsafety@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an image prompt generator for a medical education illustration.\n\nYour goal:  \nGiven the following input information about a patient case, create a **stable, consistent, and clear image generation prompt** for a simple, schematic, single-panel cartoon-style medical illustration that is friendly and easy to understand for elderly patients.\n\n### Fixed Style Requirements:\n- Style: simple, schematic, single-panel cartoon, flat vector, soft pastel colors, thick clean outlines, minimal shading, no complex background.\n- Composition: patient character at the center, cause object(s) clearly shown as simple and recognizable icons, watchful symptoms displayed around patient in small icons or speech bubbles, facial expression and body language matching symptoms, recommendation shown in a small signboard or speech bubble at the bottom.\n- Tone: friendly, easy to understand, non-threatening.\n- Focus: patient and key objects, avoid unnecessary details.\n- Add identifier label: {{ $json.identifier }} in top right corner\n\n### Variable Inputs (replace placeholders with provided data):\n- Age: {{ $json.age }}\n- Gender: {{ $json.gender }}\n- Object A: {{ $json.object_A_name }}\n- Object B: {{ $json.object_B_name }}\n- Watchful Symptoms: {{ $json.watchful_symptoms.join(', ') }}\n- FSN: {{ $json.singularfsn }}\n- Recommendation: {{ $json.recommendation[0]?.guidance || $json.recommendation[0]?.action || '' }}\n- Identifier: {{ $json.identifier }}\n\n### Output Prompt Structure:\nSimple, schematic single-panel cartoon-style medical illustration.  \nFlat vector style, soft pastel colors, thick clean outlines, minimal shading, clean white background.  \nIdentifier \"{{ $json.identifier }}\" displayed in top right corner as a small label.\nDepict a {age}-year-old {gender} patient at the center.  \nShow {objectA}{ and {objectB} if provided} as the clear cause of the problem, drawn as simple and recognizable icons.  \nAround the patient, display small icons or speech bubbles representing watchful symptoms: {watchful_symptoms}.  \nFacial expression and body language should match the symptoms.  \nVisually hint at the medical issue described as: {fsn}, without showing disturbing imagery.  \nAt the bottom, include a small signboard with the recommendation: \"{recommendation}\".  \nEnsure a clean layout, with focus on patient and key objects, in a friendly and easy-to-understand style for elderly patient education.\n\n### Instruction:\nReplace the placeholders with the given input information and produce the final image prompt exactly in the described style and structure.",
+        "options": {
+          "maxIterations": 10
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        420
+      ],
+      "id": "38143541-4225-46bf-9875-bd3be5d3dabc",
+      "name": "Generate Prompt"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 폴더 ID와 원본 데이터 병합\nconst folderId = $json.id;\nconst parseData = $('Split Identifiers').item.json;\n\n// 모든 필요한 데이터를 합쳐서 반환\nreturn {\n  json: {\n    ...parseData,\n    folderId: folderId,\n    // 추가 메타데이터\n    processingTimestamp: new Date().toISOString(),\n    workflowExecutionId: $executionId\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        420
+      ],
+      "id": "044ba1e8-2dfc-49c1-8fd3-c64bd0b77200",
+      "name": "Merge Folder ID"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Split Identifiers').item.json['연구자등록번호'] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1tnSEtkvGKgvZ365BHN42OKlRmEg-RhAU",
+          "mode": "list",
+          "cachedResultName": "2025_08_DUR_이미지생성",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1tnSEtkvGKgvZ365BHN42OKlRmEg-RhAU"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2180,
+        600
+      ],
+      "id": "4c7a3673-5dff-48ae-8d91-002840fd3cde",
+      "name": "Create folder",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hwCM5F9xZEm7kn1c",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "02c57060-14d5-4a81-964b-045085ba4f60",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1880,
+        500
+      ],
+      "id": "084d3588-3da5-400f-ad90-71b4f6453f55",
+      "name": "Folder Exists?"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json['연구자등록번호'] }}",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "https://drive.google.com/drive/u/0/folders/1tnSEtkvGKgvZ365BHN42OKlRmEg-RhAU",
+            "mode": "url"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1400,
+        520
+      ],
+      "id": "f000384a-b4a2-4ba2-9759-d9b14293bc85",
+      "name": "Search folder",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hwCM5F9xZEm7kn1c",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        980,
+        420
+      ],
+      "id": "88588455-efe3-4f1d-b686-24928fc6b048",
+      "name": "Split Identifiers"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 원본 row 정보 저장 및 JSON 파싱 개선\nconst originalRow = $json;\nconsole.log('Original row data:', JSON.stringify(originalRow, null, 2));\n\n// row_number 추출 (헤더를 제외한 실제 row 번호)\nlet rowNumber = originalRow.row_number || originalRow['Row Number'] || ($itemIndex + 2);\n\n// SMART_DUR_json 컬럼 값 가져오기\nconst rawJson = originalRow.SMART_DUR_json || originalRow['SMART_DUR_json'];\nconsole.log('Raw JSON data:', rawJson);\n\nif (!rawJson) {\n  console.log('SMART_DUR_json 컬럼이 비어있습니다.');\n  return [];\n}\n\n// 문자열이면 JSON으로 파싱\nlet arr;\ntry {\n  // JSON 문자열 정리 (이중 따옴표 처리)\n  let cleanedJson = rawJson;\n  if (typeof rawJson === 'string') {\n    // 이중 따옴표 제거\n    cleanedJson = rawJson.replace(/^\"|\"$/g, '').replace(/\"\"/g, '\"');\n  }\n  arr = typeof cleanedJson === 'string' ? JSON.parse(cleanedJson) : cleanedJson;\n  console.log('Parsed JSON array:', arr);\n} catch (e) {\n  console.error('JSON 파싱 오류:', e.message);\n  throw new Error('SMART_DUR_json 컬럼의 JSON 파싱 실패: ' + e.message);\n}\n\nif (!Array.isArray(arr)) {\n  console.log('SMART_DUR_json이 배열이 아닙니다:', typeof arr);\n  return [];\n}\n\nconst results = [];\n\n// 원본 컬럼에서 가져올 값들\nconst researcherNo = originalRow['연구자등록번호'] || originalRow.연구자등록번호 || '';\nconst age = originalRow.age || originalRow.Age || '';\nconst gender = originalRow.gender || originalRow.Gender || '';\nconst smartDurDate = originalRow['SMART_DUR_생성일'] || '';\n\nconsole.log('Extracted values:', { researcherNo, age, gender, rowNumber });\nconsole.log('Total identifiers to process:', arr.length);\n\n// 각 identifier별로 처리\nfor (let identIdx = 0; identIdx < arr.length; identIdx++) {\n  const entry = arr[identIdx];\n  console.log(`Processing identifier ${identIdx + 1}/${arr.length}:`, entry.identifier);\n  \n  const identifier = entry.identifier || '';\n  \n  // objects\n  const objA = entry.objects?.object_A || {};\n  const objB = entry.objects?.object_B || {};\n  \n  // referenced_sentences\n  const refSentences = Array.isArray(entry.referenced_sentences) ? entry.referenced_sentences : [];\n  \n  // target_outcome\n  const targetOutcomeArr = Array.isArray(entry.target_outcome) ? entry.target_outcome : [];\n  \n  console.log(`Identifier ${identifier}: ${targetOutcomeArr.length} outcomes to process`);\n  \n  // 각 target_outcome별로 처리\n  for (let outcomeIdx = 0; outcomeIdx < targetOutcomeArr.length; outcomeIdx++) {\n    const outcome = targetOutcomeArr[outcomeIdx];\n    const result = {\n      json: {\n        // 원본 row 정보\n        originalRow: originalRow,\n        rowNumber: rowNumber,\n        연구자등록번호: researcherNo,\n        SMART_DUR_생성일: smartDurDate,\n        \n        // 처리할 데이터\n        identifier,\n        identifierIndex: identIdx + 1,\n        totalIdentifiers: arr.length,\n        outcomeIndex: outcomeIdx + 1,\n        totalOutcomes: targetOutcomeArr.length,\n        age,\n        gender,\n        \n        // objects - object_A\n        object_A_code: objA.code || '',\n        object_A_code_system: objA.code_system || '',\n        object_A_name: objA.name || '',\n        \n        // objects - object_B\n        object_B_code: objB.code || '',\n        object_B_code_system: objB.code_system || '',\n        object_B_name: objB.name || '',\n        \n        // referenced_sentences\n        referenced_sentences: refSentences,\n        referenced_sentence_text: refSentences[0]?.sentence || '',\n        \n        // target_outcome 필드들\n        fsn: outcome.fsn || '',\n        severity: outcome.severity || '',\n        watchful_symptoms: Array.isArray(outcome.watchful_symptoms) ? outcome.watchful_symptoms : [],\n        singularfsn: outcome.singularfsn || '',\n        recommendation: Array.isArray(outcome.recommendation) ? outcome.recommendation : [],\n        potential_harmful_outcome: outcome.potential_harmful_outcome || '',\n        category: outcome.category || '',\n        \n        // 고유 식별자 생성\n        uniqueId: `${researcherNo}_${identifier}_${outcomeIdx + 1}`\n      }\n    };\n    \n    results.push(result);\n    console.log(`Created result for ${identifier} outcome ${outcomeIdx + 1}`);\n  }\n}\n\nconsole.log('Total results created:', results.length);\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        340
+      ],
+      "id": "176022a7-1e82-4a60-95e4-6e37eeb4ac0a",
+      "name": "Parse JSON Data"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        480,
+        280
+      ],
+      "id": "311d2dc2-99db-4c7c-965e-db1584b2530c",
+      "name": "Split Rows"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI",
+          "mode": "list",
+          "cachedResultName": "smartdur_image_generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        260
+      ],
+      "id": "034cab07-43b9-41fb-b56e-50edc6d401de",
+      "name": "Google Sheets Trigger",
+      "notesInFlow": false,
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "E8uxPVWjOUl3cByM",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        240
+      ],
+      "id": "c9a85a09-285e-4c84-9b4d-dcf55a87b97f"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1740,
+        160
+      ],
+      "id": "8c854462-2a73-4f96-a5bb-b06add880e39",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e3f62b33-1a1a-42ee-bf78-10ea9624cc39",
+              "leftValue": "={{ $json.is_finished }}",
+              "rightValue": "finished",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        200,
+        260
+      ],
+      "id": "3662a3f3-4712-4e5f-adad-74f79ca7536f",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI",
+          "mode": "list",
+          "cachedResultName": "smartdur_image_generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "구분자": "={{ $('Parse JSON Data').item.json.originalRow['구분자'] }}",
+            "DUR_identifier": "={{ (() => {\n  const a = $json.DUR_identifier;\n  const b = $('Collect URLs').item.json.identifier;\n  const A = (a !== null && a !== undefined && String(a).trim() !== '') ? String(a).trim() : null;\n  const B = (b !== null && b !== undefined && String(b).trim() !== '') ? String(b).trim() : '';\n  return A ? (A + '\\n' + B) : B;\n})() }}\n",
+            "spreadsheet_updated_time": "={{ (() => {\n  const a = $json.spreadsheet_updated_time;\n  const b = $('Collect URLs').item.json.uploadTimestamp;\n  const A = (a !== null && a !== undefined && String(a).trim() !== '') ? String(a).trim() : null;\n  const B = (b !== null && b !== undefined && String(b).trim() !== '') ? String(b).trim() : '';\n  return A ? (A + '\\n' + B) : B;\n})() }}\n",
+            "prompt_ver": "2.0",
+            "file_name": "={{ (() => {\n  const a = $json.file_name;\n  const b = $('Collect URLs').item.json.fileName;\n  const A = (a !== null && a !== undefined && String(a).trim() !== '') ? String(a).trim() : null;\n  const B = (b !== null && b !== undefined && String(b).trim() !== '') ? String(b).trim() : '';\n  return A ? (A + '\\n' + B) : B;\n})() }}\n",
+            "is_finished": "={{ Number($('Prepare Sheet Data').item.json.totalIdentifiers) === Number($('Prepare Sheet Data').item.json.identifierIndex) ? 'finished' : '' }}"
+          },
+          "matchingColumns": [
+            "구분자"
+          ],
+          "schema": [
+            {
+              "id": "연구자등록번호",
+              "displayName": "연구자등록번호",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "SMART_DUR_생성일",
+              "displayName": "SMART_DUR_생성일",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "구분자",
+              "displayName": "구분자",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "age",
+              "displayName": "age",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "gender",
+              "displayName": "gender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "SMART_DUR_json",
+              "displayName": "SMART_DUR_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "복약지도문_원문",
+              "displayName": "복약지도문_원문",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "DUR_identifier",
+              "displayName": "DUR_identifier",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "spreadsheet_updated_time",
+              "displayName": "spreadsheet_updated_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prompt_ver",
+              "displayName": "prompt_ver",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "file_name",
+              "displayName": "file_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "is_finished",
+              "displayName": "is_finished",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        4020,
+        780
+      ],
+      "id": "47d4ebd5-fd5f-4722-8f08-b55905167644",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6J8PGFiQ5ZKgIGYA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI",
+          "mode": "list",
+          "cachedResultName": "smartdur_image_generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aVeyFfPfGUz224lN69QPh20zxSyfhEzqU79u3SB0WGI/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "=구분자",
+              "lookupValue": "={{ $('Parse JSON Data').item.json.originalRow['구분자'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3800,
+        320
+      ],
+      "id": "cec688e0-2d1b-4bec-afab-16e110356dd9",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6J8PGFiQ5ZKgIGYA",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Log Error to Sheet": {
+      "main": [
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Retry": {
+      "main": [
+        [
+          {
+            "node": "Log Error to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler": {
+      "main": [
+        [
+          {
+            "node": "Wait Before Retry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inner Loop End": {
+      "main": [
+        [
+          {
+            "node": "Split Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Sheet Data": {
+      "main": [
+        [
+          {
+            "node": "Update Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Collect URLs": {
+      "main": [
+        [
+          {
+            "node": "Prepare Sheet Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image": {
+      "main": [
+        [
+          {
+            "node": "Collect URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Image": {
+      "main": [
+        [
+          {
+            "node": "Upload Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Folder ID": {
+      "main": [
+        [
+          {
+            "node": "Generate Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create folder": {
+      "main": [
+        [
+          {
+            "node": "Merge Folder ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Folder Exists?": {
+      "main": [
+        [
+          {
+            "node": "Merge Folder ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search folder": {
+      "main": [
+        [
+          {
+            "node": "Folder Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Identifiers": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Inner Loop End",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON Data": {
+      "main": [
+        [
+          {
+            "node": "Split Identifiers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Rows": {
+      "main": [
+        [
+          {
+            "node": "Outer Loop End",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse JSON Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Split Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Split Identifiers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c5d360cac92f7151040f5e134af5242061815984544afc104617764bebf909cb"
+  }
+}
