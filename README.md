@@ -75,7 +75,7 @@ MyADR Platform → Google Sheets → n8n Trigger
 - **is_finished**: Processing status flag
 
 **Example Input Data:**
-https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/input_data_sample.jpg
+![Google spreadsheet의 input data 샘플 화면](./images/input_data_sample.jpg)
 
 ```json
 {
@@ -161,7 +161,7 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 - **Example**: `cbnuh_0001_DUR_0001_1_과도한혈압강하.jpg`
 
 **Output Data (Sheet2):**
-https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/output_data_sample.jpg
+![Google spreadsheet의 output data 샘플 화면](./images/output_data_sample.jpg)
 
 (attachment:[https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/output_data_sample.jpg])
 
@@ -180,7 +180,7 @@ https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/image
 
 Generated Image
 
-![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](attachment:0f0551c5-04f2-4f9f-bb91-d9e22a6e8cac:cbnuh_0001_DUR_0001_고령자에서_텔미사르탄에_의한_과도한_혈압강하.jpg)
+![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](./images/cbnuh_0001_DUR_0001_고령자에서_텔미사르탄에_의한_과도한_혈압강하.jpg)
 
 **Generated Image Features:**
 
@@ -200,7 +200,7 @@ Generated Image
 
 **Generated Image:** 
 
-![cbnuh_0001_DUR_0002_1_저혈당.jpg](attachment:9f7ff22c-832f-4ee1-abc9-b312d0060783:cbnuh_0001_DUR_0002_1_저혈당.jpg)
+![cbnuh_0001_DUR_0002_1_저혈당.jpg](./images/cbnuh_0001_DUR_0002_1_저혈당.jpg)
 
 **Generated Image Features:**
 
