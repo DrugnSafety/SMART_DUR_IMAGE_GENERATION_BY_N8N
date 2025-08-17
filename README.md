@@ -176,9 +176,8 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 **Risk Factor**: Elderly age group
 **Generated Warning**: "Excessive blood pressure drop due to Telmisartan in elderly patients"
 
-**Generated Image**
-
-![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](./images/cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg)
+**Generated Image:**
+![설명](./images/cbnuh_0001_DUR_0001_고령자에서%20텔미사르탄에%20의한%20과도한%20혈압강하.jpg)
 
 **Generated Image Features:**
 
