@@ -163,8 +163,6 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 **Output Data (Sheet2):**
 ![Google spreadsheet의 output data 샘플 화면](./images/output_data_sample.jpg)
 
-(attachment:[https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/output_data_sample.jpg])
-
 - **Image URLs**: Direct links to generated images
 - **Google Sheets Integration**: IMAGE formulas for direct spreadsheet viewing
 - **Metadata**: Processing timestamps, file information, and patient context
@@ -177,11 +175,8 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 **Medication**: Telmisartan 80mg (blood pressure medication)
 **Risk Factor**: Elderly age group
 **Generated Warning**: "Excessive blood pressure drop due to Telmisartan in elderly patients"
-
-Generated Image
-
-![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](./images/cbnuh_0001_DUR_0001_고령자에서_텔미사르탄에_의한_과도한_혈압강하.jpg)
-
+**Generated Image**
+![cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg](./images/cbnuh_0001_DUR_0001_고령자에서 텔미사르탄에 의한 과도한 혈압강하.jpg)
 **Generated Image Features:**
 
 - Central figure: 70-year-old woman with distressed expression
