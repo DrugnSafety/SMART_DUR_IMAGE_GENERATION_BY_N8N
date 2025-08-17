@@ -75,8 +75,7 @@ MyADR Platform → Google Sheets → n8n Trigger
 - **is_finished**: Processing status flag
 
 **Example Input Data:**
-
-![input_data_sample.jpg](attachment:84c1df81-ca8f-4abe-b9ba-d3a7c7ae389d:input_data_sample.jpg)
+https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/input_data_sample.jpg
 
 ```json
 {
@@ -162,8 +161,7 @@ Google Drive Upload → Spreadsheet Update → Completion Tracking
 - **Example**: `cbnuh_0001_DUR_0001_1_과도한혈압강하.jpg`
 
 **Output Data (Sheet2):**
-
-![output_data_sample.jpg](attachment:96df38e9-dbde-4294-81cf-aa89f4616e7e:output_data_sample.jpg)
+https://github.com/DrugnSafety/SMART_DUR_IMAGE_GENERATION_BY_N8N/blob/main/images/output_data_sample.jpg
 
 - **Image URLs**: Direct links to generated images
 - **Google Sheets Integration**: IMAGE formulas for direct spreadsheet viewing
